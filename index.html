@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Web Landing Page</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070b17;
+      --surface: rgba(255, 255, 255, 0.05);
+      --surface-strong: rgba(255, 255, 255, 0.1);
+      --panel: rgba(4, 10, 22, 0.9);
+      --purple: #8b5cf6;
+      --cyan: #22d3ee;
+      --pink: #ec4899;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: rgba(148, 163, 184, 0.16);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.18), transparent 16%),
+                  radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.16), transparent 18%),
+                  linear-gradient(180deg, #03050d 0%, #070b17 100%);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0 24px;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 0 80px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      backdrop-filter: blur(16px);
+      margin-bottom: 40px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+
+    .brand span {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      box-shadow: 0 0 22px rgba(34, 211, 238, 0.35);
+    }
+
+    .topbar nav {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .topbar nav a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .topbar nav a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 660px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.75rem;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      display: block;
+      width: 26px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.7;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 5vw, 4.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      color: #ffffff;
+    }
+
+    p.lead {
+      max-width: 640px;
+      font-size: 1.06rem;
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .btn-primary {
+      padding: 0 26px;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+      color: #01050c;
+      box-shadow: 0 18px 45px rgba(34, 211, 238, 0.16);
+    }
+
+    .btn-secondary {
+      padding: 0 24px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      color: var(--text);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .hero-visual {
+      position: relative;
+      border-radius: 32px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.3);
+      padding: 28px;
+    }
+
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: -30% 20% 40%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.16), transparent 40%);
+      pointer-events: none;
+      filter: blur(30px);
+    }
+
+    .hero-card {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 20px;
+      padding: 28px;
+      background: rgba(4, 10, 22, 0.9);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-card h2 {
+      font-size: 1.35rem;
+      margin-bottom: 12px;
+    }
+
+    .hero-card p {
+      color: var(--muted);
+      font-size: 0.99rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 52px;
+    }
+
+    .feature-card {
+      padding: 26px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      backdrop-filter: blur(18px);
+      min-height: 200px;
+    }
+
+    .feature-card h3 {
+      margin-bottom: 14px;
+      font-size: 1.05rem;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .stats {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .stat {
+      padding: 22px 24px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.75rem;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    footer {
+      margin-top: 70px;
+      padding: 24px 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    .footer-brand div {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--purple), var(--cyan));
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid,
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 20px 0 60px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .topbar nav {
+        gap: 14px;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="#">
+        <span></span>
+        GitHub Web
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#stats">Stats</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Launch faster with a clean GitHub page</div>
+        <h1>Modern developer portfolio and project homepage.</h1>
+        <p class="lead">A polished landing page built entirely with HTML and CSS, optimized for GitHub Pages, developer portfolios, and product showcases.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#features">Explore</a>
+          <a class="btn btn-secondary" href="#contact">Get Started</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <h2>Open source-ready</h2>
+          <p>Designed for GitHub Pages with responsive style, clarity, and a futuristic visual system that works on desktop and mobile.</p>
+
+          <div class="feature-grid">
+            <div class="feature-card">
+              <h3>Clean layout</h3>
+              <p>Minimal structure, soft gradients, and crisp typography make your code and content the star.</p>
+            </div>
+            <div class="feature-card">
+              <h3>Responsive grid</h3>
+              <p>Flexible columns adapt to all screen sizes, preserving readability and user flow.</p>
+            </div>
+            <div class="feature-card">
+              <h3>Futuristic polish</h3>
+              <p>Glassmorphism, neon highlights, and modern motion-ready styling keep the design fresh.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="stats">
+      <div class="stat">
+        <strong>100%</strong>
+        <span>GitHub Pages compatible</span>
+      </div>
+      <div class="stat">
+        <strong>Responsive</strong>
+        <span>Mobile-first layouts with adaptive breakpoints</span>
+      </div>
+      <div class="stat">
+        <strong>Zero JS</strong>
+        <span>Fast-loading static HTML + CSS only</span>
+      </div>
+    </section>
+
+    <footer id="contact">
+      <div class="footer-brand">
+        <div></div>
+        Built for GitHub Pages by your developer.
+      </div>
+      <div>© 2026 GitHub Web — Crafted in HTML & CSS</div>
+    </footer>
+  </main>
+</body>
+</html>
