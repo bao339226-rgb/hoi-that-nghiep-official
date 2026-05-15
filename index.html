@@ -386,6 +386,18 @@
       </div>
     </section>
 
+    <section id="affiliate" class="stats" style="margin-top:36px;">
+      <div class="stat" style="grid-column: 1 / -1; padding:28px; border-radius:20px;">
+        <h3 style="margin:0 0 8px 0; color:var(--text);">Affiliate Link</h3>
+        <p style="margin:0 0 12px 0; color:var(--muted);">Paste your affiliate URL below and click "Show". The button will open the link in a new tab.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <input id="affiliate-url" type="url" placeholder="https://example.com/?ref=yourid" style="flex:1;min-width:220px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text);outline:none;" />
+          <button id="affiliate-set" class="btn btn-primary">Show</button>
+          <a id="affiliate-button" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">Visit Partner</a>
+        </div>
+      </div>
+    </section>
+
     <footer id="contact">
       <div class="footer-brand">
         <div></div>
@@ -394,5 +406,23 @@
       <div>© 2026 GitHub Web — Crafted in HTML & CSS</div>
     </footer>
   </main>
+  <script>
+    (function(){
+      var input = document.getElementById('affiliate-url');
+      var btn = document.getElementById('affiliate-set');
+      var link = document.getElementById('affiliate-button');
+
+      function setAffiliate(){
+        var url = (input.value || '').trim();
+        if(!url) return;
+        if(!/^https?:\/\//i.test(url)) url = 'https://' + url;
+        link.href = url;
+        link.style.display = 'inline-flex';
+      }
+
+      btn.addEventListener('click', setAffiliate);
+      input.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); setAffiliate(); }});
+    })();
+  </script>
 </body>
 </html>
