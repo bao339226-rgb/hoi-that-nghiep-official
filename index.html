@@ -272,8 +272,7 @@
       <a class="logo" href="#">
         <div class="mark">A</div>
         <div>
-          <div>HỘI THẤT NGHIỆP</div>
-          <small style="font-size:.8rem;color:rgba(33,33,33,.7);">admin</small>
+          <div>AffiliateLab</div>
         </div>
       </a>
       <nav class="nav-menu" aria-label="Danh mục sản phẩm">
@@ -281,6 +280,7 @@
         <button class="nav-item" data-category="Gia dụng">Gia dụng</button>
         <button class="nav-item" data-category="Công nghệ">Công nghệ</button>
         <button class="nav-item" data-category="Mỹ phẩm">Mỹ phẩm</button>
+        <button class="nav-item" data-category="Khám phá">Khám phá</button>
         <button class="nav-item" data-category="Gia đình">Gia đình</button>
       </nav>
     </div>
@@ -289,14 +289,8 @@
   <main>
     <section class="hero">
       <div>
-        <h1>Landing Page Affiliate đẹp, nhanh và chuyển đổi cao</h1>
-        <p>Chọn danh mục ở trên để xem sản phẩm phù hợp. Tôi (Chủ sở hữu) có thể dễ dàng chỉnh sửa link, ảnh và mô tả trong phần dữ liệu sản phẩm ở cuối file Javascript.</p>
-        <div class="summary">
-          <span class="pill">Sticky Header</span>
-          <span class="pill">No-reload Filter</span>
-          <span class="pill">Dynamic Theme</span>
-          <span class="pill">Responsive</span>
-        </div>
+        <h1>Sản phẩm nổi bật</h1>
+        <p>Chọn danh mục ở trên để xem sản phẩm phù hợp.</p>
         <div class="theme-hint">Chủ đề thay đổi mượt khi chọn danh mục: Gia dụng, Công nghệ, Mỹ phẩm.</div>
       </div>
     </section>
@@ -406,6 +400,15 @@
         '--secondary': '#8c4a6d',
         '--header': 'rgba(255,248,250,0.96)'
       },
+        'Khám phá': {
+          '--bg': '#f0f7ff',
+          '--surface': '#ffffff',
+          '--text': '#102a43',
+          '--accent': '#4e9af1',
+          '--accent-alt': '#a7d3ff',
+          '--secondary': '#0b6fa4',
+          '--header': 'rgba(240,247,255,0.95)'
+        },
       'Gia đình': {
         '--bg': '#eef7f3',
         '--surface': '#ffffff',
@@ -449,7 +452,27 @@
         newCards.forEach(card => productGrid.appendChild(card));
       }, 250);
     }
+        ,
+        {
+          id: 7,
+          category: 'Khám phá',
+          title: 'Nguồn gốc sản phẩm X',
+          description: 'Một vài sự thật thú vị và lịch sử ngắn gọn về sản phẩm, giúp người đọc hiểu rõ hơn trước khi mua.',
+          image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80',
+          affiliate: '#',
+          shop: 'Tìm hiểu'
+        },
+        {
+          id: 8,
+          category: 'Khám phá',
+          title: 'Thông tin báo chí về sản phẩm Y',
+          description: 'Tổng hợp trích dẫn từ báo chí và đánh giá chuyên gia liên quan đến sản phẩm.',
+          image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80',
+          affiliate: '#',
+          shop: 'Tìm hiểu'
+        }
 
+      <footer>© 2026 AffiliateLab</footer>
     function applyTheme(category) {
       const theme = themes[category] || themes['Tất cả'];
       Object.entries(theme).forEach(([name, value]) => {
