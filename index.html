@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitHub Web Landing Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page Affiliate</title>
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #070b17;
-      --surface: rgba(255, 255, 255, 0.05);
-      --surface-strong: rgba(255, 255, 255, 0.1);
-      --panel: rgba(4, 10, 22, 0.9);
-      --purple: #8b5cf6;
-      --cyan: #22d3ee;
-      --pink: #ec4899;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --border: rgba(148, 163, 184, 0.16);
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg: #f7f2e9;
+      --surface: #ffffff;
+      --text: #212121;
+      --accent: #b67f52;
+      --accent-alt: #e3b984;
+      --secondary: #7f5d3b;
+      --header: rgba(255,255,255,0.95);
     }
 
     * {
@@ -26,403 +21,455 @@
       padding: 0;
     }
 
+    html, body {
+      min-height: 100%;
+    }
+
     body {
-      min-height: 100vh;
-      background: radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.18), transparent 16%),
-                  radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.16), transparent 18%),
-                  linear-gradient(180deg, #03050d 0%, #070b17 100%);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      padding: 0 24px;
+      transition: all 0.5s ease;
     }
 
-    .page {
+    header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: var(--header);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .navbar {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 32px 0 80px;
-    }
-
-    .topbar {
+      padding: 1rem 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 16px 20px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      backdrop-filter: blur(16px);
-      margin-bottom: 40px;
+      gap: 1rem;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      font-size: 0.95rem;
-    }
-
-    .brand span {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--purple), var(--cyan));
-      box-shadow: 0 0 22px rgba(34, 211, 238, 0.35);
-    }
-
-    .topbar nav {
+    .logo {
       display: flex;
-      gap: 22px;
-      flex-wrap: wrap;
       align-items: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .topbar nav a {
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-
-    .topbar nav a:hover {
+      gap: 0.75rem;
+      font-weight: 700;
       color: var(--text);
+      text-decoration: none;
+    }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .nav-menu button {
+      border: none;
+      background: transparent;
+      color: var(--secondary);
+      cursor: pointer;
+      padding: 0.7rem 0.95rem;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    .nav-menu button.active,
+    .nav-menu button:hover {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--text);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
     }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-      gap: 40px;
-      align-items: center;
+      gap: 1.5rem;
+      padding: 2rem 0;
     }
 
-    .hero-copy {
-      max-width: 660px;
+    .hero h1 {
+      font-size: clamp(2.3rem, 5vw, 3.8rem);
+      line-height: 1.05;
+      margin-bottom: 1rem;
     }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      font-size: 0.75rem;
-      margin-bottom: 18px;
+    .hero p {
+      max-width: 760px;
+      font-size: 1rem;
+      color: rgba(33, 33, 33, 0.78);
     }
 
-    .eyebrow::before {
-      content: "";
-      display: block;
-      width: 26px;
-      height: 1px;
-      background: currentColor;
-      opacity: 0.7;
-    }
-
-    h1 {
-      font-size: clamp(3rem, 5vw, 4.6rem);
-      line-height: 0.98;
-      letter-spacing: -0.04em;
-      margin-bottom: 24px;
-      color: #ffffff;
-    }
-
-    p.lead {
-      max-width: 640px;
-      font-size: 1.06rem;
-      color: var(--muted);
-      margin-bottom: 30px;
-    }
-
-    .hero-actions {
+    .summary {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
     }
 
-    .btn {
+    .pill {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 999px;
+      padding: 0.85rem 1rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .theme-hint {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: rgba(33, 33, 33, 0.67);
+    }
+
+    .product-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin-top: 2rem;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      transform: translateY(0);
+      opacity: 1;
+      transition: transform 0.45s ease, opacity 0.45s ease;
+    }
+
+    .product-card.hide {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-info {
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .product-info h3 {
+      font-size: 1.15rem;
+      line-height: 1.35;
+    }
+
+    .product-info p {
+      color: rgba(33, 33, 33, 0.72);
+      min-height: 3.5rem;
+    }
+
+    .badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 52px;
+      padding: 0.55rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.05);
+      font-size: 0.85rem;
+      color: var(--secondary);
+      width: fit-content;
+    }
+
+    .cta {
+      margin-top: auto;
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .cta a {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-width: 160px;
+      padding: 0.95rem 1.1rem;
       border-radius: 999px;
       font-weight: 700;
-      text-decoration: none;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-    }
-
-    .btn-primary {
-      padding: 0 26px;
-      background: linear-gradient(135deg, var(--purple), var(--cyan));
-      color: #01050c;
-      box-shadow: 0 18px 45px rgba(34, 211, 238, 0.16);
-    }
-
-    .btn-secondary {
-      padding: 0 24px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      color: var(--text);
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .hero-visual {
-      position: relative;
-      border-radius: 32px;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: 0 40px 120px rgba(0, 0, 0, 0.3);
-      padding: 28px;
-    }
-
-    .hero-visual::before {
-      content: "";
-      position: absolute;
-      inset: -30% 20% 40%;
-      background: radial-gradient(circle, rgba(139, 92, 246, 0.16), transparent 40%);
-      pointer-events: none;
-      filter: blur(30px);
-    }
-
-    .hero-card {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      gap: 20px;
-      padding: 28px;
-      background: rgba(4, 10, 22, 0.9);
-      border-radius: 28px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .hero-card h2 {
-      font-size: 1.35rem;
-      margin-bottom: 12px;
-    }
-
-    .hero-card p {
-      color: var(--muted);
-      font-size: 0.99rem;
-    }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-      margin-top: 52px;
-    }
-
-    .feature-card {
-      padding: 26px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 24px;
-      backdrop-filter: blur(18px);
-      min-height: 200px;
-    }
-
-    .feature-card h3 {
-      margin-bottom: 14px;
-      font-size: 1.05rem;
-    }
-
-    .feature-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    .stats {
-      margin-top: 56px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .stat {
-      padding: 22px 24px;
-      border-radius: 22px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(148, 163, 184, 0.14);
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 1.75rem;
+      background: var(--accent);
       color: #ffffff;
-      margin-bottom: 10px;
+      transition: transform 0.2s ease, background 0.3s ease;
     }
 
-    .stat span {
-      color: var(--muted);
-      font-size: 0.92rem;
+    .cta a:hover {
+      transform: translateY(-1px);
+      background: var(--secondary);
     }
 
     footer {
-      margin-top: 70px;
-      padding: 24px 0;
-      border-top: 1px solid rgba(148, 163, 184, 0.12);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 16px;
-      color: var(--muted);
-      font-size: 0.92rem;
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: rgba(33, 33, 33, 0.6);
     }
 
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text);
-    }
-
-    .footer-brand div {
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--purple), var(--cyan));
-    }
-
-    @media (max-width: 960px) {
+    @media (max-width: 860px) {
       .hero {
-        grid-template-columns: 1fr;
+        text-align: center;
       }
 
-      .feature-grid,
-      .stats {
-        grid-template-columns: 1fr;
+      .summary {
+        justify-content: center;
       }
     }
 
-    @media (max-width: 640px) {
-      .page {
-        padding: 20px 0 60px;
-      }
-
-      .topbar {
+    @media (max-width: 600px) {
+      .navbar {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
       }
 
-      .topbar nav {
-        gap: 14px;
+      .nav-menu {
+        justify-content: center;
       }
 
-      h1 {
-        font-size: 2.8rem;
+      .hero {
+        padding-top: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <main class="page">
-    <header class="topbar">
-      <a class="brand" href="#">
-        <span></span>
-        GitHub Web
+  <header>
+    <div class="navbar">
+      <a class="logo" href="#">
+        <div class="mark">A</div>
+        <div>
+          <div>AffiliateLab</div>
+          <small style="font-size:.8rem;color:rgba(33,33,33,.7);">Chủ sở hữu kiểm soát nội dung</small>
+        </div>
       </a>
-      <nav>
-        <a href="#features">Features</a>
-        <a href="#stats">Stats</a>
-        <a href="#contact">Contact</a>
+      <nav class="nav-menu" aria-label="Danh mục sản phẩm">
+        <button class="nav-item active" data-category="Tất cả">Tất cả</button>
+        <button class="nav-item" data-category="Gia dụng">Gia dụng</button>
+        <button class="nav-item" data-category="Công nghệ">Công nghệ</button>
+        <button class="nav-item" data-category="Mỹ phẩm">Mỹ phẩm</button>
+        <button class="nav-item" data-category="Gia đình">Gia đình</button>
       </nav>
-    </header>
+    </div>
+  </header>
 
+  <main>
     <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow">Launch faster with a clean GitHub page</div>
-        <h1>Modern developer portfolio and project homepage.</h1>
-        <p class="lead">A polished landing page built entirely with HTML and CSS, optimized for GitHub Pages, developer portfolios, and product showcases.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#features">Explore</a>
-          <a class="btn btn-secondary" href="#contact">Get Started</a>
+      <div>
+        <h1>Landing Page Affiliate đẹp, nhanh và chuyển đổi cao</h1>
+        <p>Chọn danh mục ở trên để xem sản phẩm phù hợp. Tôi (Chủ sở hữu) có thể dễ dàng chỉnh sửa link, ảnh và mô tả trong phần dữ liệu sản phẩm ở cuối file Javascript.</p>
+        <div class="summary">
+          <span class="pill">Sticky Header</span>
+          <span class="pill">No-reload Filter</span>
+          <span class="pill">Dynamic Theme</span>
+          <span class="pill">Responsive</span>
         </div>
-      </div>
-
-      <div class="hero-visual">
-        <div class="hero-card">
-          <h2>Open source-ready</h2>
-          <p>Designed for GitHub Pages with responsive style, clarity, and a futuristic visual system that works on desktop and mobile.</p>
-
-          <div class="feature-grid">
-            <div class="feature-card">
-              <h3>Clean layout</h3>
-              <p>Minimal structure, soft gradients, and crisp typography make your code and content the star.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Responsive grid</h3>
-              <p>Flexible columns adapt to all screen sizes, preserving readability and user flow.</p>
-            </div>
-            <div class="feature-card">
-              <h3>Futuristic polish</h3>
-              <p>Glassmorphism, neon highlights, and modern motion-ready styling keep the design fresh.</p>
-            </div>
-          </div>
-        </div>
+        <div class="theme-hint">Chủ đề thay đổi mượt khi chọn danh mục: Gia dụng, Công nghệ, Mỹ phẩm.</div>
       </div>
     </section>
 
-    <section id="features" class="stats">
-      <div class="stat">
-        <strong>100%</strong>
-        <span>GitHub Pages compatible</span>
-      </div>
-      <div class="stat">
-        <strong>Responsive</strong>
-        <span>Mobile-first layouts with adaptive breakpoints</span>
-      </div>
-      <div class="stat">
-        <strong>Zero JS</strong>
-        <span>Fast-loading static HTML + CSS only</span>
-      </div>
-    </section>
-
-    <section id="affiliate" class="stats" style="margin-top:36px;">
-      <div class="stat" style="grid-column: 1 / -1; padding:28px; border-radius:20px;">
-        <h3 style="margin:0 0 8px 0; color:var(--text);">Affiliate Link</h3>
-        <p style="margin:0 0 12px 0; color:var(--muted);">Paste your affiliate URL below and click "Show". The button will open the link in a new tab.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
-          <input id="affiliate-url" type="url" placeholder="https://example.com/?ref=yourid" style="flex:1;min-width:220px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--text);outline:none;" />
-          <button id="affiliate-set" class="btn btn-primary">Show</button>
-          <a id="affiliate-button" class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer" style="display:none;">Visit Partner</a>
-        </div>
-      </div>
-    </section>
-
-    <footer id="contact">
-      <div class="footer-brand">
-        <div></div>
-        Built for GitHub Pages by your developer.
-      </div>
-      <div>© 2026 GitHub Web — Crafted in HTML & CSS</div>
-    </footer>
+    <section class="product-grid" id="productGrid"></section>
   </main>
+
+  <footer>© 2026 AffiliateLab • Dữ liệu sản phẩm được quản lý bởi chủ sở hữu</footer>
+
   <script>
-    (function(){
-      var input = document.getElementById('affiliate-url');
-      var btn = document.getElementById('affiliate-set');
-      var link = document.getElementById('affiliate-button');
-
-      function setAffiliate(){
-        var url = (input.value || '').trim();
-        if(!url) return;
-        if(!/^https?:\/\//i.test(url)) url = 'https://' + url;
-        link.href = url;
-        link.style.display = 'inline-flex';
+    /*
+      Dữ liệu sản phẩm tách riêng ở đây để bạn dễ chỉnh sửa thủ công.
+      Bạn có thể thêm sản phẩm mới, thay link affiliate, đổi ảnh hoặc mô tả.
+      Sau này có thể mở rộng thành products.json hoặc trang Admin Dashboard bảo mật.
+    */
+    const products = [
+      {
+        id: 1,
+        category: 'Gia dụng',
+        title: 'Máy xay đa năng 4 trong 1',
+        description: 'Thiết kế nhỏ gọn, công suất mạnh. Phù hợp cho căn bếp hiện đại và giúp đẩy cao tỷ lệ mua hàng.',
+        image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80',
+        affiliate: 'https://shopee.vn/',
+        shop: 'Shopee'
+      },
+      {
+        id: 2,
+        category: 'Công nghệ',
+        title: 'Tai nghe Bluetooth chống ồn',
+        description: 'Âm thanh sống động, pin lâu, phù hợp làm quà tặng và tăng click vào link affiliate.',
+        image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80',
+        affiliate: 'https://lazada.vn/',
+        shop: 'Lazada'
+      },
+      {
+        id: 3,
+        category: 'Mỹ phẩm',
+        title: 'Set chăm sóc da Glow',
+        description: 'Bộ sản phẩm tone hồng thanh lịch, giúp khách hàng cảm thấy tin tưởng và dễ dàng ra quyết định.',
+        image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80',
+        affiliate: 'https://shopee.vn/',
+        shop: 'Shopee'
+      },
+      {
+        id: 4,
+        category: 'Gia dụng',
+        title: 'Đèn ngủ thông minh cảm ứng',
+        description: 'Ánh sáng ấm áp, thiết kế tinh tế cho phòng ngủ và phòng khách. Tối ưu chuyển đổi với thông điệp rõ ràng.',
+        image: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80',
+        affiliate: 'https://lazada.vn/',
+        shop: 'Lazada'
+      },
+      {
+        id: 5,
+        category: 'Công nghệ',
+        title: 'Bàn phím cơ RGB cao cấp',
+        description: 'Phong cách Cyberpunk, phản hồi nhanh, phù hợp người dùng chơi game và làm việc sáng tạo.',
+        image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80',
+        affiliate: 'https://shopee.vn/',
+        shop: 'Shopee'
+      },
+      {
+        id: 6,
+        category: 'Mỹ phẩm',
+        title: 'Son môi lì sang trọng',
+        description: 'Màu sắc tự nhiên, lâu trôi. Thiết kế đẳng cấp giúp tăng độ tin cậy cho trang affiliate.',
+        image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80',
+        affiliate: 'https://lazada.vn/',
+        shop: 'Lazada'
       }
+    ];
 
-      btn.addEventListener('click', setAffiliate);
-      input.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); setAffiliate(); }});
-    })();
+    const themes = {
+      'Tất cả': {
+        '--bg': '#f7f2e9',
+        '--surface': '#ffffff',
+        '--text': '#212121',
+        '--accent': '#b67f52',
+        '--accent-alt': '#e3b984',
+        '--secondary': '#7f5d3b',
+        '--header': 'rgba(255,255,255,0.95)'
+      },
+      'Gia dụng': {
+        '--bg': '#fff7eb',
+        '--surface': '#ffffff',
+        '--text': '#2f210a',
+        '--accent': '#c48c55',
+        '--accent-alt': '#f0d3b8',
+        '--secondary': '#8b5f39',
+        '--header': 'rgba(255,250,244,0.92)'
+      },
+      'Công nghệ': {
+        '--bg': '#0c121c',
+        '--surface': '#121926',
+        '--text': '#e8f6ff',
+        '--accent': '#4e9af1',
+        '--accent-alt': '#1f72ff',
+        '--secondary': '#7fd1ff',
+        '--header': 'rgba(14,22,38,0.95)'
+      },
+      'Mỹ phẩm': {
+        '--bg': '#fff2f8',
+        '--surface': '#fffafa',
+        '--text': '#3d1f2b',
+        '--accent': '#d9749e',
+        '--accent-alt': '#f3c1d6',
+        '--secondary': '#8c4a6d',
+        '--header': 'rgba(255,248,250,0.96)'
+      },
+      'Gia đình': {
+        '--bg': '#eef7f3',
+        '--surface': '#ffffff',
+        '--text': '#1f2f28',
+        '--accent': '#4f8f7a',
+        '--accent-alt': '#8cc5b2',
+        '--secondary': '#376b55',
+        '--header': 'rgba(248,252,250,0.95)'
+      }
+    };
+
+    const productGrid = document.getElementById('productGrid');
+    const navButtons = document.querySelectorAll('.nav-item');
+    let currentCategory = 'Tất cả';
+
+    function renderProducts(category) {
+      const matching = category === 'Tất cả'
+        ? products
+        : products.filter(product => product.category === category);
+
+      const newCards = matching.map(product => {
+        const card = document.createElement('article');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.title}">
+          <div class="product-info">
+            <span class="badge">${product.category}</span>
+            <h3>${product.title}</h3>
+            <p>${product.description}</p>
+            <div class="cta">
+              <a href="${product.affiliate}" target="_blank" rel="noopener noreferrer">Mua ngay tại ${product.shop}</a>
+            </div>
+          </div>`;
+        return card;
+      });
+
+      const oldCards = Array.from(productGrid.children);
+      oldCards.forEach(card => card.classList.add('hide'));
+      setTimeout(() => {
+        productGrid.innerHTML = '';
+        newCards.forEach(card => productGrid.appendChild(card));
+      }, 250);
+    }
+
+    function applyTheme(category) {
+      const theme = themes[category] || themes['Tất cả'];
+      Object.entries(theme).forEach(([name, value]) => {
+        document.documentElement.style.setProperty(name, value);
+      });
+    }
+
+    navButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        if (button.dataset.category === currentCategory) return;
+        navButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        currentCategory = button.dataset.category;
+        applyTheme(currentCategory);
+        renderProducts(currentCategory);
+      });
+    });
+
+    renderProducts(currentCategory);
+    applyTheme(currentCategory);
   </script>
 </body>
 </html>
