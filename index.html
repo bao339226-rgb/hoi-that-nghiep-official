@@ -210,8 +210,8 @@
     .cta {
       margin-top: auto;
       display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
+      gap: 0.5rem;
+      flex-direction: column;
     }
 
     .cta a {
@@ -219,19 +219,38 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      flex: 1;
-      min-width: 160px;
-      padding: 0.95rem 1.1rem;
+      padding: 0.85rem 1.1rem;
       border-radius: 999px;
       font-weight: 700;
       background: var(--accent);
       color: #ffffff;
+      text-align: center;
       transition: transform 0.2s ease, background 0.3s ease;
     }
 
     .cta a:hover {
       transform: translateY(-1px);
       background: var(--secondary);
+    }
+
+    .btn-cart {
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      padding: 0.85rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cart:hover {
+      background: rgba(182, 127, 82, 0.1);
+      transform: translateY(-1px);
     }
 
     footer {
@@ -244,7 +263,6 @@
       .hero {
         text-align: center;
       }
-
       .summary {
         justify-content: center;
       }
@@ -255,11 +273,9 @@
         flex-direction: column;
         align-items: stretch;
       }
-
       .nav-menu {
         justify-content: center;
       }
-
       .hero {
         padding-top: 1rem;
       }
@@ -300,12 +316,26 @@
 
   <footer>© 2026 AffiliateLab • Dữ liệu sản phẩm được quản lý bởi chủ sở hữu</footer>
 
+  <div id="floating-cart" onclick="document.getElementById('cart-modal').style.display='block'" style="position:fixed; bottom:20px; right:20px; background:#e44d26; color:white; width:60px; height:60px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3); z-index:9999;">
+    <span style="font-size:24px;">🛒</span>
+    <span id="cart-badge" style="position:absolute; top:0; right:0; background:white; color:#e44d26; border-radius:50%; width:22px; height:22px; display:flex; justify-content:center; align-items:center; font-weight:bold; font-size:12px; border:2px solid #e44d26;">0</span>
+  </div>
+
+  <div id="cart-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000;">
+    <div style="background:white; max-width:400px; width:90%; margin:100px auto; padding:20px; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.2); position:relative;">
+      <h3 style="margin-top:0; border-bottom:2px solid #e44d26; padding-bottom:10px; color:#333;">Món hàng muốn mua</h3>
+      <button onclick="document.getElementById('cart-modal').style.display='none'" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer;">✕</button>
+      
+      <div id="cart-items-container" style="max-height:300px; overflow-y:auto; margin-bottom:15px;"></div>
+      
+      <button onclick="document.getElementById('cart-modal').style.display='none'" style="width:100%; background:#e44d26; color:white; border:none; padding:10px; border-radius:4px; font-weight:bold; cursor:pointer;">Tiếp tục xem sản phẩm</button>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
   <script>
-    /*
-      Dữ liệu sản phẩm tách riêng ở đây để bạn dễ chỉnh sửa thủ công.
-      Bạn có thể thêm sản phẩm mới, thay link affiliate, đổi ảnh hoặc mô tả.
-      Sau này có thể mở rộng thành products.json hoặc trang Admin Dashboard bảo mật.
-    */
     const products = [
       {
         id: 1,
@@ -442,6 +472,7 @@
     const navButtons = document.querySelectorAll('.nav-item');
     let currentCategory = 'Tất cả';
 
+    // ĐÃ TÍCH HỢP THÊM NÚT CART VÀO GIAO DIỆN CARD
     function renderProducts(category) {
       const matching = category === 'Tất cả'
         ? products
@@ -458,6 +489,9 @@
             <p>${product.description}</p>
             <div class="cta">
               <a href="${product.affiliate}" target="_blank" rel="noopener noreferrer">Mua ngay tại ${product.shop}</a>
+              <button onclick="themVaoGioHang(${product.id}, '${product.title}', '', '${product.affiliate}')" class="btn-cart">
+                Lưu mua sau 🛒
+              </button>
             </div>
           </div>`;
         return card;
@@ -491,55 +525,125 @@
 
     renderProducts(currentCategory);
     applyTheme(currentCategory);
-  </script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-<script>
-  // 1. Dán đoạn mã firebaseConfig bạn lấy được ở Bước 1 vào đây thay thế đoạn mẫu này:
-  const firebaseConfig = {
-    apiKey: "AIzaSyD0Af-ypRy771Dpm2hZ-uEvkGVSJIzc_48",
-    authDomain: "nbm-26675.firebaseapp.com",
-    databaseURL: "https://nbm-26675-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "nbm-26675",
-    storageBucket: "nbm-26675.firebasestorage.app",
-    messagingSenderId: "1072961542986",
-    appId: "1:1072961542986:web:6dfd6b8638078a058ebfb3",
-  };
+    // ==========================================
+    // LOGIC FIREBASE & ĐỒNG BỘ ĐÁM MÂY GIỎ HÀNG
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0Af-ypRy771Dpm2hZ-uEvkGVSJIzc_48",
+      authDomain: "nbm-26675.firebaseapp.com",
+      databaseURL: "https://nbm-26675-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nbm-26675",
+      storageBucket: "nbm-26675.firebasestorage.app",
+      messagingSenderId: "1072961542986",
+      appId: "1:1072961542986:web:6dfd6b8638078a058ebfb3",
+    };
 
-  // 2. Khởi tạo Firebase vào Landing Page
-  firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    console.log("Firebase kết nối thành công!");
 
-  // 3. Khai báo biến cơ sở dữ liệu để sẵn sàng sử dụng trong code giao diện
-  const database = firebase.database();
-  // Hàm tạo tài khoản mới (Chỉ cần Tên và Mật khẩu)
-function dangKyTaiKhoan(tenUser, matKhau) {
-  // Kiểm tra xem tên tài khoản đã tồn tại trên Firebase chưa
-  database.ref('users/' + tenUser).once('value').then((snapshot) => {
-    if (snapshot.exists()) {
-      alert("Tên tài khoản này đã có người sử dụng!");
-    } else {
-      // Nếu chưa có, tiến hành lưu mật khẩu và giỏ hàng trống lên database
-      database.ref('users/' + tenUser).set({
-        password: matKhau,
-        cart: []
-      }).then(() => {
-        alert("Đăng ký tài khoản thành công!");
+    let currentCurrentUser = localStorage.getItem('affiliate_user') || 'khach_vo_danh';
+    let currentCart = [];
+
+    function taiGioHangTuServer() {
+      if (currentCurrentUser === 'khach_vo_danh') {
+        currentCart = JSON.parse(localStorage.getItem('local_cart')) || [];
+        capNhatGiaoDienGioHang();
+        return;
+      }
+      database.ref('users/' + currentCurrentUser + '/cart').once('value')
+        .then((snapshot) => {
+          currentCart = snapshot.val() || [];
+          capNhatGiaoDienGioHang();
+        })
+        .catch((error) => console.error("Lỗi khi tải giỏ hàng:", error));
+    }
+
+    function dangKyTaiKhoan(tenUser, matKhau) {
+      database.ref('users/' + tenUser).once('value').then((snapshot) => {
+        if (snapshot.exists()) {
+          alert("Tên tài khoản này đã có người sử dụng!");
+        } else {
+          database.ref('users/' + tenUser).set({
+            password: matKhau,
+            cart: []
+          }).then(() => {
+            alert("Đăng ký tài khoản thành công!");
+          });
+        }
       });
     }
-  });
-}
-  console.log("Firebase kết nối thành công!");
-  // Hàm lưu danh sách sản phẩm muốn mua của người dùng lên dữ liệu đám mây
-function capNhatGioHang(tenUser, danhSachSanPham) {
-  database.ref('users/' + tenUser + '/cart').set(danhSachSanPham)
-    .then(() => {
-      console.log("Giỏ hàng đã được đồng bộ lên Firebase!");
-    })
-    .catch((error) => {
-      console.error("Lỗi đồng bộ giỏ hàng:", error);
-    });
-}
-</script>
+
+    function themVaoGioHang(idSanPham, tenSanPham, giaSanPham, linkAffiliate) {
+      const sanPhamDaCo = currentCart.find(item => item.id === idSanPham);
+      if (sanPhamDaCo) {
+        sanPhamDaCo.soLuong += 1;
+      } else {
+        currentCart.push({
+          id: idSanPham,
+          title: tenSanPham,
+          price: giaSanPham || "Đang cập nhật",
+          link: linkAffiliate,
+          soLuong: 1
+        });
+      }
+      localStorage.setItem('local_cart', JSON.stringify(currentCart));
+      if (currentCurrentUser !== 'khach_vo_danh') {
+        database.ref('users/' + currentCurrentUser + '/cart').set(currentCart)
+          .then(() => console.log("Đã đồng bộ lên Firebase!"))
+          .catch(err => console.error("Lỗi:", err));
+      }
+      capNhatGiaoDienGioHang();
+      alert(`🛒 Đã thêm "${tenSanPham}" vào mục riêng!`);
+    }
+
+    function xoaKhoiGioHang(index) {
+      currentCart.splice(index, 1);
+      localStorage.setItem('local_cart', JSON.stringify(currentCart));
+      if (currentCurrentUser !== 'khach_vo_danh') {
+        database.ref('users/' + currentCurrentUser + '/cart').set(currentCart);
+      }
+      capNhatGiaoDienGioHang();
+    }
+
+    function capNhatGiaoDienGioHang() {
+      const tongSoMon = currentCart.reduce((total, item) => total + item.soLuong, 0);
+      const BadgeGioHang = document.getElementById('cart-badge');
+      if (BadgeGioHang) BadgeGioHang.innerText = tongSoMon;
+      hienThiChiTietGioHang();
+    }
+
+    function hienThiChiTietGioHang() {
+      const container = document.getElementById('cart-items-container');
+      if (!container) return;
+      if (currentCart.length === 0) {
+        container.innerHTML = `<p style="text-align:center;color:#888;padding:20px;">Mục lưu trữ đang trống.</p>`;
+        return;
+      }
+      let html = '<ul style="list-style:none; padding:0; margin:0;">';
+      currentCart.forEach((item, index) => {
+        html += `
+          <li style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:10px 0;">
+            <div style="flex:1; padding-right:10px;">
+              <h5 style="margin:0; font-size:14px; color:#333;">${item.title}</h5>
+              <small style="color:#e44d26;">SL: ${item.soLuong}</small>
+            </div>
+            <a href="${item.link}" target="_blank" style="background:#28a745; color:#fff; text-decoration:none; padding:5px 10px; font-size:12px; border-radius:4px; margin-right:5px;">Mua</a>
+            <button onclick="xoaKhoiGioHang(${index})" style="background:#dc3545; color:#fff; border:none; padding:5px 8px; font-size:12px; border-radius:4px; cursor:pointer;">Xóa</button>
+          </li>`;
+      });
+      html += '</ul>';
+      container.innerHTML = html;
+    }
+
+    function capNhatGioHang(tenUser, danhSachSanPham) {
+      database.ref('users/' + tenUser + '/cart').set(danhSachSanPham)
+        .then(() => console.log("Giỏ hàng đã được đồng bộ lên Firebase!"))
+        .catch((error) => console.error("Lỗi đồng bộ giỏ hàng:", error));
+    }
+
+    window.addEventListener('DOMContentLoaded', taiGioHangTuServer);
+  </script>
 </body>
 </html>
