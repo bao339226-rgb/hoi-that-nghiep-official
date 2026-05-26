@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Landing Page Affiliate</title>
   <style>
     :root {
@@ -122,22 +122,6 @@
       color: rgba(33, 33, 33, 0.78);
     }
 
-    .summary {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.85rem;
-      margin-top: 1.5rem;
-    }
-
-    .pill {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-radius: 999px;
-      padding: 0.85rem 1rem;
-      font-weight: 600;
-      color: var(--secondary);
-    }
-
     .theme-hint {
       margin-top: 1rem;
       font-size: 0.95rem;
@@ -210,11 +194,14 @@
     .cta {
       margin-top: auto;
       display: flex;
-      gap: 0.5rem;
-      flex-direction: column;
+      gap: 0.75rem;
+      flex-wrap: wrap;
     }
 
-    .cta a {
+    .cta a,
+    .cta button {
+      flex: 1 1 auto;
+      min-width: 130px;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -222,10 +209,12 @@
       padding: 0.85rem 1.1rem;
       border-radius: 999px;
       font-weight: 700;
+      transition: transform 0.2s ease, background 0.3s ease, color 0.3s ease;
+    }
+
+    .cta a {
       background: var(--accent);
       color: #ffffff;
-      text-align: center;
-      transition: transform 0.2s ease, background 0.3s ease;
     }
 
     .cta a:hover {
@@ -233,24 +222,204 @@
       background: var(--secondary);
     }
 
-    .btn-cart {
+    .cta button {
       border: 1px solid var(--accent);
       background: transparent;
       color: var(--accent);
-      padding: 0.85rem 1.1rem;
-      border-radius: 999px;
-      font-weight: 600;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
       gap: 0.5rem;
-      transition: all 0.2s ease;
     }
 
-    .btn-cart:hover {
+    .cta button:hover {
       background: rgba(182, 127, 82, 0.1);
       transform: translateY(-1px);
+    }
+
+    .floating-cart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #e44d26;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+
+    .cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: white;
+      color: #e44d26;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 12px;
+      border: 2px solid #e44d26;
+    }
+
+    .cart-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 10000;
+      padding: 1.5rem;
+    }
+
+    .cart-dialog {
+      background: white;
+      max-width: 420px;
+      width: 100%;
+      margin: auto;
+      padding: 1.5rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .cart-dialog h3 {
+      margin-top: 0;
+      border-bottom: 2px solid #e44d26;
+      padding-bottom: 10px;
+      color: #333;
+    }
+
+    .cart-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .cart-items {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+
+    .cart-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .cart-item h5 {
+      margin: 0 0 0.35rem;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .cart-item-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .cart-item-actions a,
+    .cart-item-actions button {
+      border-radius: 4px;
+      font-size: 12px;
+      padding: 6px 10px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .cart-item-actions a {
+      background: #28a745;
+      color: #fff;
+    }
+
+    .cart-item-actions button {
+      background: #dc3545;
+      color: #fff;
+    }
+
+    .cart-action {
+      width: 100%;
+      background: #e44d26;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .toast-notification {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      max-width: 360px;
+      padding: 1rem 1.25rem;
+      border-radius: 18px;
+      background: rgba(33, 33, 33, 0.95);
+      color: #fff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+      transform: translateX(120%);
+      opacity: 0;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+      z-index: 11000;
+    }
+
+    .toast-notification.show {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 1.1rem;
+    }
+
+    .toast-message {
+      flex: 1;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .toast-close {
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
     }
 
     footer {
@@ -263,8 +432,8 @@
       .hero {
         text-align: center;
       }
-      .summary {
-        justify-content: center;
+      .cta {
+        flex-direction: column;
       }
     }
 
@@ -316,24 +485,25 @@
 
   <footer>© 2026 AffiliateLab • Dữ liệu sản phẩm được quản lý bởi chủ sở hữu</footer>
 
-  <div id="floating-cart" onclick="document.getElementById('cart-modal').style.display='block'" style="position:fixed; bottom:20px; right:20px; background:#e44d26; color:white; width:60px; height:60px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3); z-index:9999;">
-    <span style="font-size:24px;">🛒</span>
-    <span id="cart-badge" style="position:absolute; top:0; right:0; background:white; color:#e44d26; border-radius:50%; width:22px; height:22px; display:flex; justify-content:center; align-items:center; font-weight:bold; font-size:12px; border:2px solid #e44d26;">0</span>
+  <div id="floating-cart" class="floating-cart" onclick="document.getElementById('cart-modal').style.display='block'" aria-label="Xem giỏ hàng" role="button">
+    <span aria-hidden="true">🛒</span>
+    <span id="cart-badge" class="cart-badge">0</span>
   </div>
 
-  <div id="cart-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:10000;">
-    <div style="background:white; max-width:400px; width:90%; margin:100px auto; padding:20px; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.2); position:relative;">
-      <h3 style="margin-top:0; border-bottom:2px solid #e44d26; padding-bottom:10px; color:#333;">Món hàng muốn mua</h3>
-      <button onclick="document.getElementById('cart-modal').style.display='none'" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; cursor:pointer;">✕</button>
-      
-      <div id="cart-items-container" style="max-height:300px; overflow-y:auto; margin-bottom:15px;"></div>
-      
-      <button onclick="document.getElementById('cart-modal').style.display='none'" style="width:100%; background:#e44d26; color:white; border:none; padding:10px; border-radius:4px; font-weight:bold; cursor:pointer;">Tiếp tục xem sản phẩm</button>
+  <div id="cart-modal" class="cart-modal" aria-hidden="true">
+    <div class="cart-dialog">
+      <h3>Món hàng muốn mua</h3>
+      <button class="cart-close" onclick="closeCartModal()">✕</button>
+      <div id="cart-items-container" class="cart-items"></div>
+      <button class="cart-action" onclick="closeCartModal()">Tiếp tục xem sản phẩm</button>
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <div id="toastNotification" class="toast-notification" aria-live="polite" aria-atomic="true">
+    <div class="toast-icon" id="toastIcon">✔️</div>
+    <div class="toast-message" id="toastMessage">Thông báo</div>
+    <button class="toast-close" onclick="hideToast()">✕</button>
+  </div>
 
   <script>
     const products = [
@@ -471,14 +641,34 @@
     const productGrid = document.getElementById('productGrid');
     const navButtons = document.querySelectorAll('.nav-item');
     let currentCategory = 'Tất cả';
+    let currentCart = [];
+    let currentUser = localStorage.getItem('affiliate_user') || 'khach_vo_danh';
+    let toastTimer = null;
 
-    // ĐÃ TÍCH HỢP THÊM NÚT CART VÀO GIAO DIỆN CARD
+    function hienThiThongBao(tinNhan, icon = '✔️') {
+      const toast = document.getElementById('toastNotification');
+      const message = document.getElementById('toastMessage');
+      const toastIcon = document.getElementById('toastIcon');
+      if (!toast || !message || !toastIcon) return;
+      message.textContent = tinNhan;
+      toastIcon.textContent = icon;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => hideToast(), 3200);
+    }
+
+    function hideToast() {
+      const toast = document.getElementById('toastNotification');
+      if (!toast) return;
+      toast.classList.remove('show');
+    }
+
     function renderProducts(category) {
       const matching = category === 'Tất cả'
         ? products
         : products.filter(product => product.category === category);
 
-      const newCards = matching.map(product => {
+      const cards = matching.map(product => {
         const card = document.createElement('article');
         card.className = 'product-card';
         card.innerHTML = `
@@ -489,46 +679,129 @@
             <p>${product.description}</p>
             <div class="cta">
               <a href="${product.affiliate}" target="_blank" rel="noopener noreferrer">Mua ngay tại ${product.shop}</a>
-              <button onclick="themVaoGioHang(${product.id}, '${product.title}', '', '${product.affiliate}')" class="btn-cart">
-                Lưu mua sau 🛒
-              </button>
+              <button onclick="themVaoGioHang(${product.id}, '${product.title}', '', '${product.affiliate}')" class="btn-cart">Lưu mua sau 🛒</button>
             </div>
           </div>`;
         return card;
       });
 
-      const oldCards = Array.from(productGrid.children);
-      oldCards.forEach(card => card.classList.add('hide'));
-      setTimeout(() => {
-        productGrid.innerHTML = '';
-        newCards.forEach(card => productGrid.appendChild(card));
-      }, 250);
+      productGrid.innerHTML = '';
+      cards.forEach(card => productGrid.appendChild(card));
     }
 
     function applyTheme(category) {
       const theme = themes[category] || themes['Tất cả'];
-      Object.entries(theme).forEach(([name, value]) => {
-        document.documentElement.style.setProperty(name, value);
+      Object.entries(theme).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(key, value);
       });
+    }
+
+    function closeCartModal() {
+      const modal = document.getElementById('cart-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function capNhatGiaoDienGioHang() {
+      const totalItems = currentCart.reduce((total, item) => total + item.soLuong, 0);
+      const badge = document.getElementById('cart-badge');
+      if (badge) badge.textContent = totalItems;
+      hienThiChiTietGioHang();
+    }
+
+    function hienThiChiTietGioHang() {
+      const container = document.getElementById('cart-items-container');
+      if (!container) return;
+      if (currentCart.length === 0) {
+        container.innerHTML = '<p style="text-align:center;color:#888;padding:20px;">Mục lưu trữ đang trống.</p>';
+        return;
+      }
+      const listItems = currentCart.map((item, index) => `
+        <li class="cart-item">
+          <div>
+            <h5>${item.title}</h5>
+            <small>SL: ${item.soLuong}</small>
+          </div>
+          <div class="cart-item-actions">
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer">Mua</a>
+            <button onclick="xoaKhoiGioHang(${index})">Xóa</button>
+          </div>
+        </li>
+      `).join('');
+      container.innerHTML = `<ul class="cart-list">${listItems}</ul>`;
+    }
+
+    function taiGioHangTuServer() {
+      if (currentUser === 'khach_vo_danh') {
+        currentCart = JSON.parse(localStorage.getItem('local_cart')) || [];
+        capNhatGiaoDienGioHang();
+        return;
+      }
+      database.ref('users/' + currentUser + '/cart').once('value')
+        .then(snapshot => {
+          currentCart = snapshot.val() || [];
+          capNhatGiaoDienGioHang();
+        })
+        .catch(error => console.error('Lỗi khi tải giỏ hàng:', error));
+    }
+
+    function themVaoGioHang(idSanPham, tenSanPham, giaSanPham, linkAffiliate) {
+      const existing = currentCart.find(item => item.id === idSanPham);
+      if (existing) {
+        existing.soLuong += 1;
+      } else {
+        currentCart.push({
+          id: idSanPham,
+          title: tenSanPham,
+          price: giaSanPham || 'Đang cập nhật',
+          link: linkAffiliate,
+          soLuong: 1
+        });
+      }
+
+      localStorage.setItem('local_cart', JSON.stringify(currentCart));
+      if (currentUser !== 'khach_vo_danh') {
+        database.ref('users/' + currentUser + '/cart').set(currentCart)
+          .then(() => console.log('Đã đồng bộ lên Firebase!'))
+          .catch(err => console.error('Lỗi:', err));
+      }
+
+      capNhatGiaoDienGioHang();
+      hienThiThongBao(`Đã thêm "${tenSanPham}" vào mục riêng!`, '🛒');
+    }
+
+    function xoaKhoiGioHang(index) {
+      currentCart.splice(index, 1);
+      localStorage.setItem('local_cart', JSON.stringify(currentCart));
+      if (currentUser !== 'khach_vo_danh') {
+        database.ref('users/' + currentUser + '/cart').set(currentCart);
+      }
+      capNhatGiaoDienGioHang();
+      hienThiThongBao('Đã xoá sản phẩm khỏi giỏ hàng.', '🗑️');
     }
 
     navButtons.forEach(button => {
       button.addEventListener('click', () => {
-        if (button.dataset.category === currentCategory) return;
+        const category = button.dataset.category;
+        if (category === currentCategory) return;
         navButtons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
-        currentCategory = button.dataset.category;
+        currentCategory = category;
         applyTheme(currentCategory);
         renderProducts(currentCategory);
       });
     });
 
-    renderProducts(currentCategory);
-    applyTheme(currentCategory);
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts(currentCategory);
+      applyTheme(currentCategory);
+      taiGioHangTuServer();
+    });
+  </script>
 
-    // ==========================================
-    // LOGIC FIREBASE & ĐỒNG BỘ ĐÁM MÂY GIỎ HÀNG
-    // ==========================================
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyD0Af-ypRy771Dpm2hZ-uEvkGVSJIzc_48",
       authDomain: "nbm-26675.firebaseapp.com",
@@ -541,109 +814,7 @@
 
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-    console.log("Firebase kết nối thành công!");
-
-    let currentCurrentUser = localStorage.getItem('affiliate_user') || 'khach_vo_danh';
-    let currentCart = [];
-
-    function taiGioHangTuServer() {
-      if (currentCurrentUser === 'khach_vo_danh') {
-        currentCart = JSON.parse(localStorage.getItem('local_cart')) || [];
-        capNhatGiaoDienGioHang();
-        return;
-      }
-      database.ref('users/' + currentCurrentUser + '/cart').once('value')
-        .then((snapshot) => {
-          currentCart = snapshot.val() || [];
-          capNhatGiaoDienGioHang();
-        })
-        .catch((error) => console.error("Lỗi khi tải giỏ hàng:", error));
-    }
-
-    function dangKyTaiKhoan(tenUser, matKhau) {
-      database.ref('users/' + tenUser).once('value').then((snapshot) => {
-        if (snapshot.exists()) {
-          alert("Tên tài khoản này đã có người sử dụng!");
-        } else {
-          database.ref('users/' + tenUser).set({
-            password: matKhau,
-            cart: []
-          }).then(() => {
-            alert("Đăng ký tài khoản thành công!");
-          });
-        }
-      });
-    }
-
-    function themVaoGioHang(idSanPham, tenSanPham, giaSanPham, linkAffiliate) {
-      const sanPhamDaCo = currentCart.find(item => item.id === idSanPham);
-      if (sanPhamDaCo) {
-        sanPhamDaCo.soLuong += 1;
-      } else {
-        currentCart.push({
-          id: idSanPham,
-          title: tenSanPham,
-          price: giaSanPham || "Đang cập nhật",
-          link: linkAffiliate,
-          soLuong: 1
-        });
-      }
-      localStorage.setItem('local_cart', JSON.stringify(currentCart));
-      if (currentCurrentUser !== 'khach_vo_danh') {
-        database.ref('users/' + currentCurrentUser + '/cart').set(currentCart)
-          .then(() => console.log("Đã đồng bộ lên Firebase!"))
-          .catch(err => console.error("Lỗi:", err));
-      }
-      capNhatGiaoDienGioHang();
-      alert(`🛒 Đã thêm "${tenSanPham}" vào mục riêng!`);
-    }
-
-    function xoaKhoiGioHang(index) {
-      currentCart.splice(index, 1);
-      localStorage.setItem('local_cart', JSON.stringify(currentCart));
-      if (currentCurrentUser !== 'khach_vo_danh') {
-        database.ref('users/' + currentCurrentUser + '/cart').set(currentCart);
-      }
-      capNhatGiaoDienGioHang();
-    }
-
-    function capNhatGiaoDienGioHang() {
-      const tongSoMon = currentCart.reduce((total, item) => total + item.soLuong, 0);
-      const BadgeGioHang = document.getElementById('cart-badge');
-      if (BadgeGioHang) BadgeGioHang.innerText = tongSoMon;
-      hienThiChiTietGioHang();
-    }
-
-    function hienThiChiTietGioHang() {
-      const container = document.getElementById('cart-items-container');
-      if (!container) return;
-      if (currentCart.length === 0) {
-        container.innerHTML = `<p style="text-align:center;color:#888;padding:20px;">Mục lưu trữ đang trống.</p>`;
-        return;
-      }
-      let html = '<ul style="list-style:none; padding:0; margin:0;">';
-      currentCart.forEach((item, index) => {
-        html += `
-          <li style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:10px 0;">
-            <div style="flex:1; padding-right:10px;">
-              <h5 style="margin:0; font-size:14px; color:#333;">${item.title}</h5>
-              <small style="color:#e44d26;">SL: ${item.soLuong}</small>
-            </div>
-            <a href="${item.link}" target="_blank" style="background:#28a745; color:#fff; text-decoration:none; padding:5px 10px; font-size:12px; border-radius:4px; margin-right:5px;">Mua</a>
-            <button onclick="xoaKhoiGioHang(${index})" style="background:#dc3545; color:#fff; border:none; padding:5px 8px; font-size:12px; border-radius:4px; cursor:pointer;">Xóa</button>
-          </li>`;
-      });
-      html += '</ul>';
-      container.innerHTML = html;
-    }
-
-    function capNhatGioHang(tenUser, danhSachSanPham) {
-      database.ref('users/' + tenUser + '/cart').set(danhSachSanPham)
-        .then(() => console.log("Giỏ hàng đã được đồng bộ lên Firebase!"))
-        .catch((error) => console.error("Lỗi đồng bộ giỏ hàng:", error));
-    }
-
-    window.addEventListener('DOMContentLoaded', taiGioHangTuServer);
+    console.log('Firebase kết nối thành công!');
   </script>
 </body>
 </html>
