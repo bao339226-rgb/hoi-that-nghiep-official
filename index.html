@@ -492,5 +492,54 @@
     renderProducts(currentCategory);
     applyTheme(currentCategory);
   </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+  // 1. Dán đoạn mã firebaseConfig bạn lấy được ở Bước 1 vào đây thay thế đoạn mẫu này:
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0Af-ypRy771Dpm2hZ-uEvkGVSJIzc_48",
+    authDomain: "nbm-26675.firebaseapp.com",
+    databaseURL: "https://nbm-26675-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "nbm-26675",
+    storageBucket: "nbm-26675.firebasestorage.app",
+    messagingSenderId: "1072961542986",
+    appId: "1:1072961542986:web:6dfd6b8638078a058ebfb3",
+  };
+
+  // 2. Khởi tạo Firebase vào Landing Page
+  firebase.initializeApp(firebaseConfig);
+
+  // 3. Khai báo biến cơ sở dữ liệu để sẵn sàng sử dụng trong code giao diện
+  const database = firebase.database();
+  // Hàm tạo tài khoản mới (Chỉ cần Tên và Mật khẩu)
+function dangKyTaiKhoan(tenUser, matKhau) {
+  // Kiểm tra xem tên tài khoản đã tồn tại trên Firebase chưa
+  database.ref('users/' + tenUser).once('value').then((snapshot) => {
+    if (snapshot.exists()) {
+      alert("Tên tài khoản này đã có người sử dụng!");
+    } else {
+      // Nếu chưa có, tiến hành lưu mật khẩu và giỏ hàng trống lên database
+      database.ref('users/' + tenUser).set({
+        password: matKhau,
+        cart: []
+      }).then(() => {
+        alert("Đăng ký tài khoản thành công!");
+      });
+    }
+  });
+}
+  console.log("Firebase kết nối thành công!");
+  // Hàm lưu danh sách sản phẩm muốn mua của người dùng lên dữ liệu đám mây
+function capNhatGioHang(tenUser, danhSachSanPham) {
+  database.ref('users/' + tenUser + '/cart').set(danhSachSanPham)
+    .then(() => {
+      console.log("Giỏ hàng đã được đồng bộ lên Firebase!");
+    })
+    .catch((error) => {
+      console.error("Lỗi đồng bộ giỏ hàng:", error);
+    });
+}
+</script>
 </body>
 </html>
