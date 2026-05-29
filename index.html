@@ -172,11 +172,22 @@
     .product-info h3 {
       font-size: 1.15rem;
       line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 3rem;
     }
 
     .product-info p {
       color: rgba(33, 33, 33, 0.72);
       min-height: 3.5rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .badge {
@@ -200,7 +211,7 @@
 
     .cta a,
     .cta button {
-      flex: 1 1 auto;
+      flex: 1 1 0;
       min-width: 130px;
       text-decoration: none;
       display: inline-flex;
@@ -665,7 +676,7 @@
 
     function renderProducts(category) {
       const matching = category === 'Tất cả'
-        ? products
+        ? products.filter(product => product.category !== 'Khám phá')
         : products.filter(product => product.category === category);
 
       const cards = matching.map(product => {
@@ -747,16 +758,17 @@
     function themVaoGioHang(idSanPham, tenSanPham, giaSanPham, linkAffiliate) {
       const existing = currentCart.find(item => item.id === idSanPham);
       if (existing) {
-        existing.soLuong += 1;
-      } else {
-        currentCart.push({
-          id: idSanPham,
-          title: tenSanPham,
-          price: giaSanPham || 'Đang cập nhật',
-          link: linkAffiliate,
-          soLuong: 1
-        });
+        hienThiThongBao(`Sản phẩm "${tenSanPham}" đã có trong mục riêng.`, 'ℹ️');
+        return;
       }
+
+      currentCart.push({
+        id: idSanPham,
+        title: tenSanPham,
+        price: giaSanPham || 'Đang cập nhật',
+        link: linkAffiliate,
+        soLuong: 1
+      });
 
       localStorage.setItem('local_cart', JSON.stringify(currentCart));
       if (currentUser !== 'khach_vo_danh') {
