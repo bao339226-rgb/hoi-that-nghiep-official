@@ -1,0 +1,54 @@
+name: "🚀 Thêm sản phẩm tự động"
+description: "Điền thông tin vào đây để robot tự động chèn sản phẩm vào Landing Page"
+title: "[Thêm sản phẩm]: "
+labels: ["automation"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: "Tên sản phẩm"
+      placeholder: "Ví dụ: Máy xay đa năng 4 trong 1"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Danh mục sản phẩm"
+      options:
+        - "Gia dụng"
+        - "Công nghệ"
+        - "Mỹ phẩm"
+        - "Gia đình"
+        - "Khám phá"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Mô tả ngắn sản phẩm"
+      placeholder: "Viết vài dòng mô tả ngắn gọn..."
+    validations:
+      required: true
+  - type: input
+    id: image
+    attributes:
+      label: "Link ảnh sản phẩm"
+      placeholder: "https://images.unsplash.com/..."
+  - type: dropdown
+    id: shop
+    attributes:
+      label: "Nguồn Shop bán"
+      options:
+        - "Shopee"
+        - "Lazada"
+        - "Tiki"
+        - "TikTok Shop"
+    validations:
+      required: true
+  - type: input
+    id: affiliate
+    attributes:
+      label: "🔗 Link Affiliate của bạn"
+      placeholder: "https://shope.ee/..."
+    validations:
+      required: true
