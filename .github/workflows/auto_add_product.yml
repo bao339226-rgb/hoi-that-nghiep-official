@@ -56,29 +56,38 @@ jobs:
 
           id_sp = int(time.time())
           
-          new_product = f"""
-                {{
-                  id: {id_sp},
-                  category: '{category}',
-                  title: '{title}',
-                  description: '{description}',
-                  image: '{image}',
-                  affiliate: '{affiliate}',
-                  shop: '{shop}'
-                }},"""
+          # Định dạng khối sản phẩm mới đồng bộ hoàn hảo với file index.html của bạn
+          new_product = f"""      {{
+                id: {id_sp},
+                category: '{category}',
+                title: '{title}',
+                description: '{description}',
+                image: '{image}',
+                affiliate: '{affiliate}',
+                shop: '{shop}'
+              }},"""
 
           with open("index.html", "r", encoding="utf-8") as f:
               content = f.read()
 
-          pattern = r"(const\s+products\s*=\s*\[)"
+          # Tìm kiếm linh hoạt mảng products bất kể khoảng trắng hay xuống dòng
+          pattern = r"(const\s+products\s*=\s*\[\s*\n)"
           if re.search(pattern, content):
-              updated_content = re.sub(pattern, r"\1" + new_product, content, count=1)
+              updated_content = re.sub(pattern, r"\1" + new_product + "\n", content, count=1)
               with open("index.html", "w", encoding="utf-8") as f:
                   f.write(updated_content)
               print("SUCCESS: Cập nhật tệp dữ liệu thành công!")
           else:
-              print("ERROR: Không tìm thấy mảng 'const products = ['")
-              exit(1)
+              # Giải pháp dự phòng 2 nếu bạn có chỉnh sửa cấu trúc khoảng lùi dòng
+              pattern_backup = r"(const\s+products\s*=\s*\[)"
+              if re.search(pattern_backup, content):
+                  updated_content = re.sub(pattern_backup, r"\1\n" + new_product, content, count=1)
+                  with open("index.html", "w", encoding="utf-8") as f:
+                      f.write(updated_content)
+                  print("SUCCESS: Cập nhật thành công theo phương án dự phòng!")
+              else:
+                  print("ERROR: Không tìm thấy mảng sản phẩm trong file HTML")
+                  exit(1)
           EOF
 
       - name: Tiến hành đẩy mã nguồn mới lên Github
