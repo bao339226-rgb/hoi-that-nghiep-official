@@ -1,0 +1,96 @@
+name: Auto Add Product from Issue
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  add-product:
+    if: contains(github.event.issue.labels.*.name, 'automation')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài đặt Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Phân tách dữ liệu Issue và cập nhật dữ liệu sản phẩm
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          python - << 'EOF'
+          import os
+          import re
+          import time
+
+          body = os.environ.get("ISSUE_BODY", "")
+          
+          def get_field(label):
+              match = re.search(r"### " + re.escape(label) + r"\s*\n\s*(.*?)(?=\n\s*###|\Z)", body, re.DOTALL)
+              if match:
+                  val = match.group(1).strip()
+                  return "" if val == "_No response_" else val
+              return ""
+
+          title = get_field("Tên sản phẩm")
+          category = get_field("Danh mục sản phẩm")
+          description = get_field("Mô tả ngắn sản phẩm")
+          image = get_field("Link ảnh sản phẩm")
+          shop = get_field("Nguồn Shop bán")
+          affiliate = get_field("🔗 Link Affiliate của bạn")
+
+          title = title.replace("'", "\\'")
+          description = description.replace("'", "\\'").replace("\n", " ")
+          image = image.replace("'", "\\'")
+          affiliate = affiliate.replace("'", "\\'")
+
+          if not image:
+              image = "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=800&q=80"
+
+          id_sp = int(time.time())
+          
+          new_product = f"""
+                {{
+                  id: {id_sp},
+                  category: '{category}',
+                  title: '{title}',
+                  description: '{description}',
+                  image: '{image}',
+                  affiliate: '{affiliate}',
+                  shop: '{shop}'
+                }},"""
+
+          with open("index.html", "r", encoding="utf-8") as f:
+              content = f.read()
+
+          pattern = r"(const\s+products\s*=\s*\[)"
+          if re.search(pattern, content):
+              updated_content = re.sub(pattern, r"\1" + new_product, content, count=1)
+              with open("index.html", "w", encoding="utf-8") as f:
+                  f.write(updated_content)
+              print("SUCCESS: Cập nhật tệp dữ liệu thành công!")
+          else:
+              print("ERROR: Không tìm thấy mảng 'const products = ['")
+              exit(1)
+          EOF
+
+      - name: Tiến hành đẩy mã nguồn mới lên Github
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add index.html
+          git commit -m "🤖 Tự động chèn sản phẩm: ${{ github.event.issue.title }}"
+          git push
+
+      - name: Tự động đóng và báo cáo trạng thái Issue
+        run: |
+          gh issue close ${{ github.event.issue.number }} --comment "✅ Robot đã đồng bộ sản phẩm mới này vào hệ thống Landing Page của bạn thành công!"
+          env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
